@@ -5,5 +5,6 @@
 
 ## Background
 
+Yet an other working time calculator.
 I created this for helping my wife to calculate her working time and to keep track of her target hours.
 It is especially made for her company.
