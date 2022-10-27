@@ -7,6 +7,7 @@ plugins {
     id("com.android.application")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    kotlin("plugin.parcelize")
 }
 
 version = "1.0-SNAPSHOT"
@@ -20,6 +21,10 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.runtime)
+                implementation("com.arkivanov.decompose:decompose:1.0.0-alpha-07")
+                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:1.0.0-alpha-07")
+                implementation("com.ionspin.kotlin:bignum:0.3.7")
+                implementation("com.soywiz.korlibs.klock:klock:3.3.0")
             }
         }
 

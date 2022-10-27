@@ -10,6 +10,7 @@ pluginManagement {
         val kotlinVersion = extra["kotlin.version"] as String
         kotlin("multiplatform").version(kotlinVersion)
         kotlin("android").version(kotlinVersion)
+        kotlin("plugin.parcelize").version(kotlinVersion)
 
         val agpVersion = extra["agp.version"] as String
         id("com.android.application").version(agpVersion)

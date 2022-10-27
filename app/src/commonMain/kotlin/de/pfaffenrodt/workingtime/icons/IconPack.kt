@@ -1,3 +1,8 @@
 package de.pfaffenrodt.workingtime.icons
 
-object IconPack
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+
+object IconPack {
+    val Add = Icons.Default.Add
+}
