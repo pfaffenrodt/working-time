@@ -2,10 +2,14 @@ package de.pfaffenrodt.workingtime
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import de.pfaffenrodt.workingtime.pages.AddDay
+import de.pfaffenrodt.workingtime.pages.AddMonth
+import de.pfaffenrodt.workingtime.pages.DayOverview
+import de.pfaffenrodt.workingtime.pages.MonthOverview
+import de.pfaffenrodt.workingtime.pages.YearOverview
 
 @Composable
 fun App(root: RootComponent) {
