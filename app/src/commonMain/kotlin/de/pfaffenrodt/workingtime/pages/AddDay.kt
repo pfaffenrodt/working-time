@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.pfaffenrodt.workingtime.Root
+import de.pfaffenrodt.workingtime.data.DateFormat
 import de.pfaffenrodt.workingtime.data.Day
 import de.pfaffenrodt.workingtime.icons.IconPack
 
@@ -31,13 +32,13 @@ fun AddDay(component: Root.Child.AddDay) {
         Column(modifier = Modifier.fillMaxWidth()) {
             // day input
             OutlinedTextField( // TODO replace with date picker
-                value = day.day.toString(),
+                value = day.format,
                 label = { Text("Tag") },
                 modifier = Modifier.fillMaxWidth(),
                 onValueChange = { newValue ->
-                    val dayIntValue = newValue.toIntOrNull()
-                    if (dayIntValue != null) {
-                        day = day.copy(day = dayIntValue)
+                    val dayValue = DateFormat.DAY.tryParse(newValue)
+                    if (dayValue != null) {
+                        day = day.copy(date = dayValue)
                     }
                 })
             // target hours

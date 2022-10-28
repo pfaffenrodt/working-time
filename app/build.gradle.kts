@@ -8,6 +8,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     kotlin("plugin.parcelize")
+    id("com.squareup.sqldelight")
 }
 
 version = "1.0-SNAPSHOT"
@@ -41,6 +42,8 @@ kotlin {
             dependencies {
                 implementation("androidx.appcompat:appcompat:1.5.1")
                 implementation("androidx.activity:activity-compose:1.6.1")
+                val sqldelightVersion = extra["sqldelight.version"] as String
+                implementation("com.squareup.sqldelight:android-driver:$sqldelightVersion")
             }
         }
     }
@@ -89,5 +92,11 @@ android {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
             res.srcDirs("src/androidMain/res", "src/commonMain/resources")
         }
+    }
+}
+
+sqldelight {
+    database("Database") {
+        packageName = "de.pfaffenrodt.workingtime.data.database"
     }
 }

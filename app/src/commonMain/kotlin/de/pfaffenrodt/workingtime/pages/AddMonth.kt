@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.pfaffenrodt.workingtime.Root
+import de.pfaffenrodt.workingtime.data.DateFormat
 import de.pfaffenrodt.workingtime.data.Month
 import de.pfaffenrodt.workingtime.data.toString
 import de.pfaffenrodt.workingtime.icons.IconPack
@@ -32,13 +33,13 @@ fun AddMonth(component: Root.Child.AddMonth) {
         Column(modifier = Modifier.fillMaxWidth()) {
             // month input
             OutlinedTextField( // TODO replace with date picker
-                value = month.month.toString(),
+                value = month.format,
                 label = { Text("Monat") },
                 modifier = Modifier.fillMaxWidth(),
                 onValueChange = { newValue ->
-                    val monthIntValue = newValue.toIntOrNull()
-                    if (monthIntValue != null) {
-                        month = month.copy(month = monthIntValue)
+                    val monthValue = DateFormat.MONTH.tryParse(newValue, false)
+                    if (monthValue != null) {
+                        month = month.copy(date = monthValue)
                     }
                 })
             // target hours

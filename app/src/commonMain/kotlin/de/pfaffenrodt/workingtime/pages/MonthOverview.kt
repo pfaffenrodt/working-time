@@ -28,7 +28,7 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()) {
-            Text("Monat ${component.month.month}")
+            Text("Monat ${component.month.format}")
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {

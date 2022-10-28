@@ -9,6 +9,6 @@ import de.pfaffenrodt.workingtime.Root
 fun DayOverview(component: Root.Child.DayOverview)
 {
     Column {
-        Text("day: ${component.day.day}")
+        Text("day: ${component.day.format}")
     }
 }

@@ -3,24 +3,26 @@ package de.pfaffenrodt.workingtime.data
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.soywiz.klock.DateTime
+import com.soywiz.klock.DateTimeTz
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Day(
-    val day: Int,
-    val month: Int,
-    val year: Int,
+    val date: DateTimeTz,
+    val note: String? = null,
 ): Parcelable {
+
+    constructor(day: de.pfaffenrodt.workingtime.data.database.Day): this(day.date, day.note)
 
     companion object {
         fun now(): Day {
-            val now = DateTime.now()
+            val now = DateTime.nowLocal()
+
             return Day(
-                day = now.dayOfMonth,
-                month = now.month1,
-                year = now.yearInt,
+                date = now,
             )
         }
     }
 
+    val format: String get() = DateFormat.DAY.format(date)
 }

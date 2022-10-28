@@ -17,6 +17,9 @@ pluginManagement {
 
         val composeVersion = extra["compose.version"] as String
         id("org.jetbrains.compose").version(composeVersion)
+
+        val sqldelightVersion = extra["sqldelight.version"] as String
+        id("com.squareup.sqldelight").version(sqldelightVersion)
     }
 }
 

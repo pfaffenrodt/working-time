@@ -1,0 +1,18 @@
+import com.soywiz.klock.DateTimeTz;
+
+
+CREATE TABLE day (
+  date TEXT AS DateTimeTz NOT NULL,
+  note TEXT
+);
+
+CREATE INDEX day_date ON day(date);
+
+selectAll:
+SELECT * FROM day;
+
+insert:
+INSERT INTO day VALUES ?;
+
+selectLikeDate:
+SELECT * FROM day WHERE date LIKE ?;
