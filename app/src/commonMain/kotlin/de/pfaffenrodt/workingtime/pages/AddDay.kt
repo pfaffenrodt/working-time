@@ -22,6 +22,7 @@ import com.soywiz.klock.DateTime
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
 import de.pfaffenrodt.workingtime.components.DayPicker
+import de.pfaffenrodt.workingtime.components.TimePicker
 import de.pfaffenrodt.workingtime.components.Toolbar
 import de.pfaffenrodt.workingtime.data.DateFormat
 import de.pfaffenrodt.workingtime.data.Day
@@ -33,7 +34,7 @@ fun AddDay(component: Root.Child.AddDay) {
     val startOfMonth = component.month.date.startOfMonth
     val endOfMonth = component.month.date.endOfMonth
     val minDate = if (now.month0 == startOfMonth.month0) now else startOfMonth
-    val maxDate = if (endOfMonth > now && now.month0 == endOfMonth.month0) now else endOfMonth
+    val maxDate = if (now.month0 == endOfMonth.month0) now else endOfMonth
     var day by remember {
         val date = if (now.month0 == component.month.date.month0) {
             Day.now()
@@ -45,7 +46,6 @@ fun AddDay(component: Root.Child.AddDay) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize()) {
-        // TODO add TOOLBAR back button
         Column(modifier = Modifier.fillMaxWidth()) {
             Toolbar(onBack = component::onBack) {
                 Text(Strings.addDay)
@@ -56,14 +56,6 @@ fun AddDay(component: Root.Child.AddDay) {
                     maxDate = maxDate) {
                     newValue -> day = day.copy(date = newValue)
                 }
-                // target hours
-                OutlinedTextField(
-                    "",
-                    label = { Text("Startzeit") },
-                    modifier = Modifier.fillMaxWidth(),
-                    onValueChange = { newValue ->
-                        // TODO update time
-                    })
             }
         }
         Box(modifier = Modifier.padding(16.dp)) {
