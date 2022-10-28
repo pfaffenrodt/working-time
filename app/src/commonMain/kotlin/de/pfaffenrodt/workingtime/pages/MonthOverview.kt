@@ -29,6 +29,7 @@ import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
 import de.pfaffenrodt.workingtime.components.BackButton
 import de.pfaffenrodt.workingtime.components.EditButton
+import de.pfaffenrodt.workingtime.components.Toolbar
 import de.pfaffenrodt.workingtime.data.Day
 import de.pfaffenrodt.workingtime.data.Month
 import de.pfaffenrodt.workingtime.icons.IconPack
@@ -39,17 +40,11 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
+        Toolbar(
+            onBack = component::onBack
         ) {
-            BackButton {
-                component.onBack()
-            }
-            Column(
-                modifier = Modifier.weight(1f).padding(vertical = 8.dp)) {
-                Text("Monat ${component.month.displayFormat}")
-                Text(Strings.monthView, modifier = Modifier.alpha(0.6f))
-            }
+            Text(component.month.displayFormat)
+            Text(Strings.monthView, modifier = Modifier.alpha(0.6f))
         }
         Column(
             verticalArrangement = Arrangement.SpaceBetween,

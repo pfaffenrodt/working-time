@@ -62,6 +62,11 @@ interface Root {
             }
         }
         class AddMonth(private val root: Root): Child {
+
+            fun onBack() {
+                root.onBack()
+            }
+
             fun store(month: Month) {
                 if (root.data.monthRepository.get(month.date) != null) {
                     // TODO show error entry already given
@@ -72,6 +77,10 @@ interface Root {
             }
         }
         class AddDay(private val root: Root): Child {
+            fun onBack() {
+                root.onBack()
+            }
+
             fun store(day: Day) {
                 if (root.data.dayRepository.get(day.date) != null) {
                     // TODO show error entry already given
