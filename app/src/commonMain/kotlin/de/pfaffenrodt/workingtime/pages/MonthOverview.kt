@@ -27,6 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
+import de.pfaffenrodt.workingtime.components.BackButton
+import de.pfaffenrodt.workingtime.components.EditButton
 import de.pfaffenrodt.workingtime.data.Day
 import de.pfaffenrodt.workingtime.data.Month
 import de.pfaffenrodt.workingtime.icons.IconPack
@@ -40,15 +42,9 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Icon(
-                IconPack.Back,
-                "Zurück",
-                modifier = Modifier.size(48.dp)
-                    .clickable {
-                    component.onBack()
-                }
-                .padding(8.dp)
-            )
+            BackButton {
+                component.onBack()
+            }
             Column(
                 modifier = Modifier.weight(1f).padding(vertical = 8.dp)) {
                 Text("Monat ${component.month.displayFormat}")
@@ -69,13 +65,7 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
                                 Text("${Strings.lastMonthTransfer} ${component.month.lastMonthHoursTransfer} h")
                                 Text("${Strings.nextMonthTransfer} TODO h")
                             }
-                            Icon(
-                                IconPack.Edit,
-                                "Bearbeiten",
-                                modifier = Modifier.size(48.dp)
-                                    .clickable { component.editMonth() }
-                                    .padding(8.dp)
-                            )
+                            EditButton { component.editMonth() }
                         }
                         Box (modifier = Modifier
                             .alpha(0.2f)

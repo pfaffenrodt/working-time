@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
+import de.pfaffenrodt.workingtime.components.BackButton
 import de.pfaffenrodt.workingtime.icons.IconPack
 
 @Composable
@@ -26,15 +27,9 @@ fun DayOverview(component: Root.Child.DayOverview)
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Icon(
-                IconPack.Back,
-                "Zurück",
-                modifier = Modifier.size(48.dp)
-                    .clickable {
-                        component.onBack()
-                    }
-                    .padding(8.dp)
-            )
+            BackButton {
+                component.onBack()
+            }
             Column(
                 modifier = Modifier.weight(1f).padding(vertical = 8.dp)
             ) {
