@@ -26,7 +26,7 @@ fun RootContent(root: Root)
 {
     val childStack by root.childStack.subscribeAsState()
     when(val activeComponent = childStack.active.instance) {
-        is Root.Child.YearOverview -> YearOverview(root::onAddMonth)
+        is Root.Child.YearOverview -> YearOverview(activeComponent)
         is Root.Child.AddMonth -> AddMonth(activeComponent)
         is Root.Child.MonthOverview -> MonthOverview(activeComponent)
         is Root.Child.AddDay -> AddDay(activeComponent)

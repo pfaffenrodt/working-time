@@ -1,8 +1,8 @@
-import com.soywiz.klock.DateTimeTz;
+import com.soywiz.klock.DateTime;
 
 
 CREATE TABLE month (
-  date TEXT AS DateTimeTz NOT NULL,
+  date TEXT AS DateTime NOT NULL,
   target_hours TEXT,
   last_month_hours_transfer TEXT
 );
@@ -10,7 +10,7 @@ CREATE TABLE month (
 CREATE INDEX month_date ON month(date);
 
 selectAll:
-SELECT * FROM month;
+SELECT * FROM month ORDER BY date DESC;
 
 insert:
 INSERT INTO month VALUES ?;

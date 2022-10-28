@@ -38,7 +38,7 @@ fun AddDay(component: Root.Child.AddDay) {
                 onValueChange = { newValue ->
                     val dayValue = DateFormat.DAY.tryParse(newValue)
                     if (dayValue != null) {
-                        day = day.copy(date = dayValue)
+                        day = day.copy(date = dayValue.local)
                     }
                 })
             // target hours

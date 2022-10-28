@@ -4,46 +4,26 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeTz
+import com.soywiz.klock.TimeSpan
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Month(
-    val date: DateTimeTz,
+    val date: DateTime,
     val targetHours: String? = null,
     val lastMonthHoursTransfer: String? = null,
 ): Parcelable {
     val targetHoursBigDecimal = targetHours.bd()
     val lastMonthHoursTransferBigDecimal = targetHours.bd()
 
-    constructor(day: de.pfaffenrodt.workingtime.data.database.Month):
-        this(
-            day.date,
-            day.target_hours,
-            day.last_month_hours_transfer
-        )
-
     companion object {
         fun now(): Month {
             return Month(
-                date = DateTime.nowLocal(),
+                date = DateTime.now().startOfMonth,
             )
         }
     }
 
-    val format: String get() = DateFormat.MONTH.format(this.date)
-}
-
-fun String?.bd(): BigDecimal {
-    if (this == null) {
-        return BigDecimal.ZERO
-    }
-
-    return BigDecimal.parseString(this.replace(',', '.'))
-}
-
-fun String?.toString(): String {
-    if (this == null) {
-        return ""
-    }
-    return this
+    val format: String get() = DateFormat.MONTH.format(this.date.localUnadjusted)
+    val displayFormat: String get() = DateFormat.MONTH_DISPLAY.format(this.date.localUnadjusted)
 }

@@ -39,7 +39,7 @@ fun AddMonth(component: Root.Child.AddMonth) {
                 onValueChange = { newValue ->
                     val monthValue = DateFormat.MONTH.tryParse(newValue, false)
                     if (monthValue != null) {
-                        month = month.copy(date = monthValue)
+                        month = month.copy(date = monthValue.local)
                     }
                 })
             // target hours

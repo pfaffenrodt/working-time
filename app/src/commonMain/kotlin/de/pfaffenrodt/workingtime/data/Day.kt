@@ -8,15 +8,13 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Day(
-    val date: DateTimeTz,
+    val date: DateTime,
     val note: String? = null,
 ): Parcelable {
 
-    constructor(day: de.pfaffenrodt.workingtime.data.database.Day): this(day.date, day.note)
-
     companion object {
         fun now(): Day {
-            val now = DateTime.nowLocal()
+            val now = DateTime.now().startOfDay
 
             return Day(
                 date = now,
@@ -24,5 +22,6 @@ data class Day(
         }
     }
 
-    val format: String get() = DateFormat.DAY.format(date)
+    val format: String get() = DateFormat.DAY.format(date.localUnadjusted)
+    val fullDisplayFormat: String get() = DateFormat.DAY_DISPLAY.format(date.localUnadjusted)
 }

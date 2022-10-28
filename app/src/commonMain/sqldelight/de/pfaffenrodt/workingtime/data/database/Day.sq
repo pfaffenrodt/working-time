@@ -1,18 +1,21 @@
-import com.soywiz.klock.DateTimeTz;
+import com.soywiz.klock.DateTime;
 
 
 CREATE TABLE day (
-  date TEXT AS DateTimeTz NOT NULL,
+  date TEXT AS DateTime NOT NULL,
   note TEXT
 );
 
 CREATE INDEX day_date ON day(date);
 
 selectAll:
-SELECT * FROM day;
+SELECT * FROM day ORDER BY date;
 
 insert:
 INSERT INTO day VALUES ?;
 
 selectLikeDate:
-SELECT * FROM day WHERE date LIKE ?;
+SELECT * FROM day WHERE date LIKE ? ORDER BY date DESC;
+
+selectByDate:
+SELECT * FROM day WHERE date = ? ORDER BY date DESC;
