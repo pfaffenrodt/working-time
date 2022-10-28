@@ -20,6 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
+import de.pfaffenrodt.workingtime.components.DayPicker
+import de.pfaffenrodt.workingtime.components.MonthPicker
 import de.pfaffenrodt.workingtime.components.Toolbar
 import de.pfaffenrodt.workingtime.data.DateFormat
 import de.pfaffenrodt.workingtime.data.Month
@@ -41,17 +43,11 @@ fun AddMonth(component: Root.Child.AddMonth) {
                 .fillMaxWidth()
                 .padding(16.dp)
             ){
-                // month input
-                OutlinedTextField( // TODO replace with date picker
-                    value = month.format,
-                    label = { Text("Monat") },
-                    modifier = Modifier.fillMaxWidth(),
-                    onValueChange = { newValue ->
-                        val monthValue = DateFormat.MONTH.tryParse(newValue, false)
-                        if (monthValue != null) {
-                            month = month.copy(date = monthValue.local)
-                        }
-                    })
+                MonthPicker(
+                    value = month.date
+                ) {
+                    newValue -> month = month.copy(date = newValue)
+                }
                 // target hours
                 OutlinedTextField(
                     month.targetHours.toString(),

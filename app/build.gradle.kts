@@ -21,6 +21,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)
+                implementation(compose.materialIconsExtended)
                 implementation(compose.runtime)
                 implementation("com.arkivanov.decompose:decompose:1.0.0-alpha-07")
                 implementation("com.arkivanov.decompose:extensions-compose-jetbrains:1.0.0-alpha-07")

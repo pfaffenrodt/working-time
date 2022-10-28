@@ -46,7 +46,7 @@ interface Root {
             }
 
             fun onAddDay() {
-                root.onAddDay()
+                root.onAddDay(month)
             }
 
             fun editMonth() {
@@ -76,13 +76,17 @@ interface Root {
                 root.onStoredMonth(month)
             }
         }
-        class AddDay(private val root: Root): Child {
+        class AddDay(
+            private val root: Root,
+            val month: Month
+        ): Child {
             fun onBack() {
                 root.onBack()
             }
 
             fun store(day: Day) {
-                if (root.data.dayRepository.get(day.date) != null) {
+                val existingDay = root.data.dayRepository.get(day.date)
+                if (existingDay != null) {
                     // TODO show error entry already given
                     return
                 }
@@ -105,7 +109,7 @@ interface Root {
     fun onOpenMonth(month: Month)
     fun onStoredMonth(month: Month)
     fun onEditMonth(month: Month)
-    fun onAddDay()
+    fun onAddDay(month: Month)
     fun onOpenDay(day: Day)
     fun onStoredDay(day: Day)
 }
@@ -136,7 +140,7 @@ class RootComponent(
             is Config.MonthOverview -> Root.Child.MonthOverview(this, config.month)
             is Config.DayOverview -> Root.Child.DayOverview(this, config.day)
             is Config.AddMonth -> Root.Child.AddMonth(this)
-            is Config.AddDay -> Root.Child.AddDay(this)
+            is Config.AddDay -> Root.Child.AddDay(this, config.month)
         }
     }
 
@@ -160,8 +164,8 @@ class RootComponent(
         TODO("Not yet implemented")
     }
 
-    override fun onAddDay() {
-        navigation.bringToFront(Config.AddDay)
+    override fun onAddDay(month: Month) {
+        navigation.bringToFront(Config.AddDay(month))
     }
 
     override fun onOpenDay(day: Day) {
@@ -180,7 +184,7 @@ class RootComponent(
         @Parcelize
         object AddMonth: Config
         @Parcelize
-        object AddDay: Config
+        class AddDay(val month: Month): Config
         @Parcelize
         class DayOverview(val day: Day): Config
     }

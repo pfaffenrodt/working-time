@@ -18,8 +18,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.soywiz.klock.DateTime
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
+import de.pfaffenrodt.workingtime.components.DayPicker
 import de.pfaffenrodt.workingtime.components.Toolbar
 import de.pfaffenrodt.workingtime.data.DateFormat
 import de.pfaffenrodt.workingtime.data.Day
@@ -27,7 +29,19 @@ import de.pfaffenrodt.workingtime.icons.IconPack
 
 @Composable
 fun AddDay(component: Root.Child.AddDay) {
-    var day by remember { mutableStateOf(Day.now()) }
+    val now = DateTime.now()
+    val startOfMonth = component.month.date.startOfMonth
+    val endOfMonth = component.month.date.endOfMonth
+    val minDate = if (now.month0 == startOfMonth.month0) now else startOfMonth
+    val maxDate = if (endOfMonth > now && now.month0 == endOfMonth.month0) now else endOfMonth
+    var day by remember {
+        val date = if (now.month0 == component.month.date.month0) {
+            Day.now()
+        } else {
+            Day(startOfMonth)
+        }
+        mutableStateOf(date)
+    }
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize()) {
@@ -37,17 +51,11 @@ fun AddDay(component: Root.Child.AddDay) {
                 Text(Strings.addDay)
             }
             Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-                // day input
-                OutlinedTextField( // TODO replace with date picker
-                    value = day.format,
-                    label = { Text("Tag") },
-                    modifier = Modifier.fillMaxWidth(),
-                    onValueChange = { newValue ->
-                        val dayValue = DateFormat.DAY.tryParse(newValue)
-                        if (dayValue != null) {
-                            day = day.copy(date = dayValue.local)
-                        }
-                    })
+                DayPicker(day.date,
+                    minDate = minDate,
+                    maxDate = maxDate) {
+                    newValue -> day = day.copy(date = newValue)
+                }
                 // target hours
                 OutlinedTextField(
                     "",
