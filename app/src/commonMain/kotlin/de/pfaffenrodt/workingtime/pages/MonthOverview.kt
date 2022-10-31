@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import com.soywiz.klock.TimeSpan
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
 import de.pfaffenrodt.workingtime.components.BackButton
@@ -41,7 +42,7 @@ import de.pfaffenrodt.workingtime.icons.IconPack
 @Composable
 fun MonthOverview(component: Root.Child.MonthOverview) {
     val items = component.items()
-    val hoursValue = items.map { it.hours }
+    val hoursValue = if (items.isEmpty()) TimeSpan(0.0) else items.map { it.hours }
         .reduce { acc, hours -> acc.plus(hours) }
     val hours = hoursValue
         .string()
@@ -131,15 +132,29 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
 fun ListItem(item: Day, open: (day: Day) -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().clickable { open(item) }) {
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-            Text(text = item.hoursSummary, style = MaterialTheme.typography.subtitle1 )
-            Text(text = item.summary, style = MaterialTheme.typography.h1 )
-            if (!item.note.isNullOrBlank()) {
-                Box(modifier = Modifier
-                    .padding(top = 8.dp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    item.date.dayOfMonth.toString(),
+                    style = MaterialTheme.typography.h1,
+                    modifier = Modifier.padding(8.dp)
                 )
-                Divider(thickness = 1.dp, color = Color.White.copy(0.6f))
-                Text(text = item.note?:"", style = MaterialTheme.typography.body1, modifier = Modifier
-                    .padding(top = 8.dp))
+                Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+                    Text(text = item.hoursSummary, style = MaterialTheme.typography.subtitle1)
+                    Text(text = item.summary, style = MaterialTheme.typography.h1)
+                    if (!item.note.isNullOrBlank()) {
+                        Box(
+                            modifier = Modifier
+                                .padding(top = 8.dp)
+                        )
+                        Divider(thickness = 1.dp, color = Color.White.copy(0.6f))
+                        Text(
+                            text = item.note ?: "",
+                            style = MaterialTheme.typography.body1,
+                            modifier = Modifier
+                                .padding(top = 8.dp)
+                        )
+                    }
+                }
             }
         }
     }

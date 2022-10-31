@@ -44,7 +44,7 @@ data class Day(
         }.flatten()
 
     val summary: String
-        get() = date.dayOfMonth.toString() + ". " +timeSpans.joinToString(" ") { it.string() }
+        get() = timeSpans.joinToString("\n") { it.shortString() }
 
     val hours: TimeSpan
             get() {
@@ -68,6 +68,14 @@ fun DateTimeRange.string(): String {
     return min.format(DateFormat.TIME) + " - " + max.format(DateFormat.TIME) + " $duration"
 }
 
+fun DateTimeRange.shortString(): String {
+    if (min == max) {
+        return min.format(DateFormat.TIME) + " 0 h"
+    }
+    val duration = min.until(max).duration.shortString()
+    return min.format(DateFormat.TIME) + " - " + max.format(DateFormat.TIME) + " $duration"
+}
+
 fun TimeSpan.string(): String {
     if (minutes < 0) {
         return "$minutes min ${Strings.timeForBreak}"
@@ -79,4 +87,12 @@ fun TimeSpan.string(): String {
         .toStringExpanded()
     val timeString = toTimeString().removeRange(5, 8)
     return "$timeString (${duration} h)"
+}
+
+fun TimeSpan.shortString(): String {
+    if (minutes < 0) {
+        return "$minutes min ${Strings.timeForBreak}"
+    }
+
+    return toTimeString().removeRange(5, 8)
 }
