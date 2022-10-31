@@ -25,4 +25,5 @@ object Strings {
     val endTime = "Endzeit"
     val endOfWorkingDay = "Feierabend"
     val timeRange = "Zeitspanne"
+    val timeForBreak = "Pause"
 }

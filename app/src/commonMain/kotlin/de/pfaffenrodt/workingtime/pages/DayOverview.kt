@@ -162,7 +162,11 @@ fun EditTimeItem(index: Int, lastIndex: Int, item: DateTime, onDelete: () -> Uni
 fun TimeSpanItem(item: DateTimeRange) {
     Card {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            val content = "${Strings.timeRange}: " + item.string()
+            val content = if (item.duration.milliseconds < 0) {
+                "${Strings.timeForBreak}: " + item.string()
+            } else {
+                "${Strings.timeRange}: " + item.string()
+            }
             Text(content, modifier = Modifier.weight(1f).padding(8.dp))
         }
     }
