@@ -35,7 +35,7 @@ data class Day(
     val timeSpans: List<DateTimeRange> = times.chunked(2)
         .map { it[0].until(it.getOrNull(1) ?: it[0]) }
         .map {
-            if (it.duration.hours < 6.0) {
+            if (it.duration.hours <= 6.0) {
                 listOf(it)
             } else {
                 // add break
