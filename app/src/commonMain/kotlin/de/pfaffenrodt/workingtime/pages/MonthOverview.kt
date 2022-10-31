@@ -1,7 +1,6 @@
 package de.pfaffenrodt.workingtime.pages
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
@@ -26,16 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.ionspin.kotlin.bignum.decimal.RoundingMode
-import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.soywiz.klock.TimeSpan
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
-import de.pfaffenrodt.workingtime.components.BackButton
 import de.pfaffenrodt.workingtime.components.EditButton
 import de.pfaffenrodt.workingtime.components.Toolbar
 import de.pfaffenrodt.workingtime.data.Day
-import de.pfaffenrodt.workingtime.data.Month
 import de.pfaffenrodt.workingtime.data.string
 import de.pfaffenrodt.workingtime.icons.IconPack
 
@@ -46,10 +40,9 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
         .reduce { acc, hours -> acc.plus(hours) }
     val hours = hoursValue
         .string()
-    val targetHoursBigDecimal = component.month.targetHoursBigDecimal
-    val transferHours = (hoursValue.hours.toBigDecimal() - targetHoursBigDecimal + component.month.lastMonthHoursTransferBigDecimal)
-                        .roundToDigitPositionAfterDecimalPoint(2, RoundingMode.ROUND_HALF_TOWARDS_ZERO)
-                        .toStringExpanded()
+    val targetHoursTimeSpan = component.month.targetHoursTimeSpan
+    val monthHoursDiff = (hoursValue - targetHoursTimeSpan).string()
+    val transferHours = (hoursValue - targetHoursTimeSpan + component.month.lastMonthHoursTransferTimeSpan).string()
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -72,9 +65,10 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
                         Row(modifier = Modifier.padding(bottom = 16.dp)) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(Strings.actualHours + " " + hours )
-                                Text("${Strings.targetHours} ${component.month.targetHours ?: "-" } h")
-                                Text("${Strings.lastMonthTransfer} ${component.month.lastMonthHoursTransfer ?: "-" } h")
-                                Text("${Strings.nextMonthTransfer} $transferHours h")
+                                Text("${Strings.targetHours} ${component.month.targetHours ?: "-" }")
+                                Text("${Strings.monthDiff} $monthHoursDiff")
+                                Text("${Strings.lastMonthTransfer} ${component.month.lastMonthHoursTransfer ?: "-" }")
+                                Text("${Strings.nextMonthTransfer} $transferHours")
                             }
                             EditButton { component.editMonth() }
                         }

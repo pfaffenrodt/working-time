@@ -17,6 +17,7 @@ object Strings {
 
     val targetHours = "Sollstunden"
     val actualHours = "Iststunden"
+    val monthDiff = "Monatsübertrag"
     val lastMonthTransfer = "Vormonatsübertrag"
     val nextMonthTransfer = "Übertragfolgemonat"
 

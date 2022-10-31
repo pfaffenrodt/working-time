@@ -1,9 +1,6 @@
 package de.pfaffenrodt.workingtime.data
 
-import androidx.compose.runtime.toMutableStateList
 import com.arkivanov.essenty.parcelable.Parcelable
-import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeRange
 import com.soywiz.klock.TimeSpan
@@ -11,6 +8,7 @@ import com.soywiz.klock.toTimeString
 import com.soywiz.klock.until
 import de.pfaffenrodt.workingtime.Strings
 import kotlinx.parcelize.Parcelize
+import kotlin.math.abs
 
 @Parcelize
 data class Day(
@@ -77,16 +75,17 @@ fun DateTimeRange.shortString(): String {
 }
 
 fun TimeSpan.string(): String {
-    if (minutes < 0) {
-        return "$minutes min ${Strings.timeForBreak}"
+    val minutes = minutes
+    if (minutes < 0 && minutes >= -30.0) {
+        return "$minutes min"
     }
+    val hours = abs(hours.toInt())
+    val sign = if (minutes < 0) "-" else ""
+    val minutesLeft = (abs(minutes) - (hours * 60.0)).toInt()
 
-    val duration = BigDecimal
-        .fromDouble(hours)
-        .roundToDigitPositionAfterDecimalPoint(2, RoundingMode.ROUND_HALF_TOWARDS_ZERO)
-        .toStringExpanded()
-    val timeString = toTimeString().removeRange(5, 8)
-    return "$timeString (${duration} h)"
+    val hoursPadded = hours.toString().padStart(2, '0')
+    val minutesPadded = minutesLeft.toString().padStart(2, '0')
+    return "$sign$hoursPadded:$minutesPadded"
 }
 
 fun TimeSpan.shortString(): String {
