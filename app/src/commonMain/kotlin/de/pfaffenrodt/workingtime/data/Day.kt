@@ -51,9 +51,10 @@ data class Day(
 
 fun DateTimeRange.string(): String {
     if (min == max) {
-        return min.format(DateFormat.TIME)
+        return min.format(DateFormat.TIME) + " 0 h"
     }
-    return min.format(DateFormat.TIME) + " - " + max.format(DateFormat.TIME)
+    val duration = min.until(max).duration.string()
+    return min.format(DateFormat.TIME) + " - " + max.format(DateFormat.TIME) + " $duration"
 }
 
 fun TimeSpan.string(): String {

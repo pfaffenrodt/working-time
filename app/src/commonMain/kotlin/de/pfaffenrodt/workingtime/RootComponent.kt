@@ -128,6 +128,13 @@ interface Root {
                 root.onStoredDay(root.data.dayRepository.get(newDay.date)!!)
             }
 
+            fun updateListOfEntries(times: List<DateTime>) {
+                val newDay = day.copy(times = times)
+                root.data.dayRepository.update(newDay)
+
+                root.onStoredDay(root.data.dayRepository.get(newDay.date)!!)
+            }
+
             fun onEditNote(newNode: String) {
                 val newDay = day.copy(note = newNode)
                 root.data.dayRepository.update(newDay)

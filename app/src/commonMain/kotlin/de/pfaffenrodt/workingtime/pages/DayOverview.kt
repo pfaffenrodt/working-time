@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -20,6 +21,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -28,6 +30,7 @@ import com.soywiz.klock.DateTime
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
 import de.pfaffenrodt.workingtime.components.CloseButton
+import de.pfaffenrodt.workingtime.components.DeleteButton
 import de.pfaffenrodt.workingtime.components.EditButton
 import de.pfaffenrodt.workingtime.components.SaveButton
 import de.pfaffenrodt.workingtime.components.TimePicker
@@ -40,16 +43,34 @@ import de.pfaffenrodt.workingtime.icons.IconPack
 fun DayOverview(component: Root.Child.DayOverview)
 {
     var newTime by remember { mutableStateOf(DateTime.now()) }
+    var editMode by remember { mutableStateOf(false) }
     var addTime by remember {
         val size = component.day.times.size
-        val value = size == 0 || size.mod(2) == 1
+        val value = size == 0 || size < 4 && size.mod(2) == 1
         mutableStateOf(value)
     }
+    var editItems by remember { mutableStateOf(component.day.times) }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         Toolbar(
             onBack = component::onBack,
+            actions = {
+                if (editMode) {
+                    CloseButton {
+                        editMode = false
+                        editItems = component.day.times
+                    }
+                    SaveButton {
+                        component.updateListOfEntries(editItems)
+                        editMode = false
+                    }
+                } else {
+                    EditButton {
+                        editMode = true
+                    }
+                }
+            }
         ) {
             Text(component.day.fullDisplayFormat)
             Text(Strings.dayView, modifier = Modifier.alpha(0.6f))
@@ -61,44 +82,58 @@ fun DayOverview(component: Root.Child.DayOverview)
                 modifier = Modifier.padding(16.dp).weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                item {
-                    Note(component.day.note?:"") {
-                        component.onEditNote(it)
+                if (editMode) {
+                    itemsIndexed(editItems) { index, item ->
+                        Row {
+                            val content = (if (index % 2 == 0) "start" else "stop") + " Zeit: " + item.toString(DateFormat.TIME)
+                            Text(content, modifier = Modifier.weight(1f))
+                            DeleteButton {
+                                editItems = editItems.toMutableList().also { it.removeAt(index) }
+                            }
+                        }
                     }
-                }
-                items(component.day.timeSpans) { item ->
-                    Row {
-                        val content = "Zeit: " + item.string()
-                        Text(content)
+                } else {
+                    item {
+                        Note(component.day.note?:"") {
+                            component.onEditNote(it)
+                        }
+                    }
+                    items(component.day.timeSpans) { item ->
+                        Row {
+                            val content = "Zeitspanne: " + item.string()
+                            Text(content)
+                        }
                     }
                 }
             }
 
-            Column {
-                if (addTime) {
-                    Box {
-                        TimePicker(newTime) { newValue ->
-                            newTime = newValue
+            if (!editMode) {
+                Column {
+                    if (addTime) {
+                        Box {
+                            TimePicker(newTime) { newValue ->
+                                newTime = newValue
+                            }
+                            CloseButton { addTime = false }
                         }
-                        CloseButton { addTime = false }
-                    }
-                    Box(modifier = Modifier.padding(16.dp)) {
-                        // add button
-                        Button({
-                            component.store(newTime)
-                        }, modifier = Modifier.fillMaxWidth()) {
-                            Icon(IconPack.Add, "")
-                            Text(Strings.add, color = Color.Black)
+                        Box(modifier = Modifier.padding(16.dp)) {
+                            // add button
+                            Button({
+                                component.store(newTime)
+                            }, modifier = Modifier.fillMaxWidth()) {
+                                Icon(IconPack.Add, "")
+                                Text(Strings.add, color = Color.Black)
+                            }
                         }
-                    }
-                } else {
-                    Box(modifier = Modifier.padding(16.dp)) {
-                        // add button
-                        Button({
-                            addTime = true
-                        }, modifier = Modifier.fillMaxWidth()) {
-                            Icon(IconPack.Add, "")
-                            Text(Strings.add, color = Color.Black)
+                    } else {
+                        Box(modifier = Modifier.padding(16.dp)) {
+                            // add button
+                            Button({
+                                addTime = true
+                            }, modifier = Modifier.fillMaxWidth()) {
+                                Icon(IconPack.Add, "")
+                                Text(Strings.add, color = Color.Black)
+                            }
                         }
                     }
                 }
