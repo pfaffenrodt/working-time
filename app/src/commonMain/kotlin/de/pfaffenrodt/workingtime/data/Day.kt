@@ -5,12 +5,10 @@ import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeRange
-import com.soywiz.klock.DateTimeTz
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.toTimeString
 import com.soywiz.klock.until
 import kotlinx.parcelize.Parcelize
-import kotlin.math.roundToInt
 
 @Parcelize
 data class Day(
@@ -39,8 +37,13 @@ data class Day(
         get() = date.dayOfMonth.toString() + ". " +timeSpans.joinToString(" ") { it.string() }
 
     val hours: TimeSpan
-            get() = timeSpans.map { it.duration }
-                .reduce { acc, dateTimeRange -> acc.plus(dateTimeRange) }
+            get() {
+                val hours = timeSpans.map { it.duration }
+                if (hours.isEmpty()) {
+                    return TimeSpan(0.0)
+                }
+                return hours.reduce { acc, dateTimeRange -> acc.plus(dateTimeRange) }
+            }
     
     val hoursSummary: String
         get() = hours.string()
@@ -56,11 +59,8 @@ fun DateTimeRange.string(): String {
 fun TimeSpan.string(): String {
     val duration = BigDecimal
         .fromDouble(hours)
-        .roundToDigitPositionAfterDecimalPoint(2, RoundingMode.CEILING)
-        .toString()
-    val hours = hours.roundToInt()
-    val onlyMinutes = minutes.roundToInt() - (hours * 60)
-    val hoursPadded = if (hours < 10) "0$hours" else hours.toString()
-    val minutesPadded = if (onlyMinutes == 0) "00" else if (onlyMinutes < 10) "0$onlyMinutes" else onlyMinutes.toString()
-    return "${duration} h ($hoursPadded:$minutesPadded)"
+        .roundToDigitPositionAfterDecimalPoint(2, RoundingMode.ROUND_HALF_TOWARDS_ZERO)
+        .toStringExpanded()
+    val timeString = toTimeString().removeRange(5, 8)
+    return "$timeString (${duration} h)"
 }

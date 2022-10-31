@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.Divider
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -54,7 +55,10 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.weight(1f).padding(16.dp)
         ) {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.weight(1f)
+            ) {
                 item {
                     Column(modifier = Modifier.padding(bottom = 8.dp)) {
                         Row(modifier = Modifier.padding(bottom = 16.dp)) {
@@ -122,6 +126,14 @@ fun ListItem(item: Day, open: (day: Day) -> Unit) {
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
             Text(text = item.hoursSummary, style = MaterialTheme.typography.subtitle1 )
             Text(text = item.summary, style = MaterialTheme.typography.h1 )
+            if (!item.note.isNullOrBlank()) {
+                Box(modifier = Modifier
+                    .padding(top = 8.dp)
+                )
+                Divider(thickness = 1.dp, color = Color.White.copy(0.6f))
+                Text(text = item.note?:"", style = MaterialTheme.typography.body1, modifier = Modifier
+                    .padding(top = 8.dp))
+            }
         }
     }
 }
