@@ -17,6 +17,7 @@ fun IconButton(
     imageVector: ImageVector,
     contentDescription: String?,
     modifier: Modifier = Modifier,
+    boundedIndication: Boolean = false,
     action: () -> Unit
 ) {
     Icon(
@@ -25,7 +26,7 @@ fun IconButton(
         modifier = modifier.size(48.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(bounded = false),
+                indication = rememberRipple(bounded = boundedIndication),
                 onClick = action
             )
             .padding(8.dp)

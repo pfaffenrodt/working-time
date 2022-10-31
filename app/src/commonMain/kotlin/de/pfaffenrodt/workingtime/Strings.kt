@@ -2,6 +2,7 @@ package de.pfaffenrodt.workingtime
 
 object Strings {
     val add = "Hinzufügen"
+    val close = "Schließen"
     val addMonth = "Monat hinzufügen"
     val editMonth = "Monat bearbeiten"
     val addDay = "Tag hinzufügen"
@@ -10,7 +11,8 @@ object Strings {
     val descriptionStartNewMonth = "Drücke auf das Plus Symbol, um ein neuen Monat zu starten"
     val yearView = "Jahresansicht"
     val monthView = "Monatsansicht"
-    val dayView = "Tagessansicht"
+    val dayView = "Tagesansicht"
+    val dayEditView = "Tages Bearbeitungsansicht"
     val descriptionStartNewDay = "Drücke auf das Plus Symbol, um ein neuen Tag zu starten"
 
     val targetHours = "Sollstunden"
@@ -19,4 +21,8 @@ object Strings {
     val nextMonthTransfer = "Übertragfolgemonat"
 
     val note = "Notiz"
+    val startTime = "Startzeit"
+    val endTime = "Endzeit"
+    val endOfWorkingDay = "Feierabend"
+    val timeRange = "Zeitspanne"
 }

@@ -7,12 +7,14 @@ import de.pfaffenrodt.workingtime.icons.IconPack
 @Composable
 fun EditButton(
     modifier: Modifier = Modifier,
+    boundedIndication: Boolean = false,
     onEdit: () -> Unit
 ) {
     IconButton(
         IconPack.Edit,
         "Bearbeiten",
         modifier,
+        boundedIndication,
         onEdit
     )
 }

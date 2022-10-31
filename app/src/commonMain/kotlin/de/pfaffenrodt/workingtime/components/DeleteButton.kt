@@ -7,12 +7,14 @@ import de.pfaffenrodt.workingtime.icons.IconPack
 @Composable
 fun DeleteButton(
     modifier: Modifier = Modifier,
+    boundedIndication: Boolean = false,
     onEdit: () -> Unit
 ) {
     IconButton(
         IconPack.Delete,
         "Löschen",
         modifier,
+        boundedIndication,
         onEdit
     )
 }

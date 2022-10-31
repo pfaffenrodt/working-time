@@ -7,12 +7,14 @@ import de.pfaffenrodt.workingtime.icons.IconPack
 @Composable
 fun BackButton(
     modifier: Modifier = Modifier,
+    boundedIndication: Boolean = false,
     onBack: () -> Unit
 ) {
     IconButton(
         IconPack.Back,
         "Zurück",
         modifier,
-        onBack
+        boundedIndication,
+        onBack,
     )
 }

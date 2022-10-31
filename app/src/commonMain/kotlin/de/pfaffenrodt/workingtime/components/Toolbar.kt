@@ -16,15 +16,35 @@ typealias Actions = @Composable (RowScope.() -> Unit)
 
 @Composable
 fun Toolbar(
-    onBack: Action? = null,
-    actions: Actions = { },
+    onBack: Action,
+    actions: Actions? = null,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Toolbar(leadingActions = {
+        BackButton(onBack = onBack)
+    },
+        content = content,
+        tailingActions = actions
+    )
+}
+
+@Composable
+fun Toolbar(
+    leadingActions: Actions? = null,
+    tailingActions: Actions? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
-        if (onBack != null) {
-            BackButton(onBack = onBack)
+        if (leadingActions != null) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(start = 8.dp),
+            ) {
+                leadingActions()
+            }
         }
         Column(
             modifier = Modifier.weight(1f)
@@ -33,11 +53,14 @@ fun Toolbar(
         ) {
             content()
         }
-        Row(
-            modifier = Modifier
-                .align(Alignment.CenterVertically),
-        ) {
-            actions()
+        if (tailingActions != null) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(end = 8.dp),
+            ) {
+                tailingActions()
+            }
         }
     }
 }

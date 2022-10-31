@@ -7,12 +7,14 @@ import de.pfaffenrodt.workingtime.icons.IconPack
 @Composable
 fun SaveButton(
     modifier: Modifier = Modifier,
+    boundedIndication: Boolean = false,
     onEdit: () -> Unit
 ) {
     IconButton(
         IconPack.Save,
         "Speichern",
         modifier,
+        boundedIndication,
         onEdit
     )
 }
