@@ -2,7 +2,7 @@ import com.soywiz.klock.DateTime;
 
 
 CREATE TABLE month (
-  date TEXT AS DateTime NOT NULL,
+  date TEXT AS DateTime PRIMARY KEY NOT NULL,
   target_hours TEXT,
   last_month_hours_transfer TEXT
 );

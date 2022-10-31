@@ -1,9 +1,11 @@
 import com.soywiz.klock.DateTime;
+import kotlin.collections.List;
 
 
 CREATE TABLE day (
-  date TEXT AS DateTime NOT NULL,
-  note TEXT
+  date TEXT AS DateTime PRIMARY KEY NOT NULL,
+  note TEXT,
+  times TEXT AS List<DateTime> NOT NULL
 );
 
 CREATE INDEX day_date ON day(date);
@@ -19,3 +21,6 @@ SELECT * FROM day WHERE date LIKE ? ORDER BY date DESC;
 
 selectByDate:
 SELECT * FROM day WHERE date = ? ORDER BY date DESC;
+
+update:
+INSERT OR REPLACE INTO day VALUES ?;

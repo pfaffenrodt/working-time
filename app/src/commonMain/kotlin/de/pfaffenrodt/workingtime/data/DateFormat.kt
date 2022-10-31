@@ -5,6 +5,7 @@ import com.soywiz.klock.locale.german
 
 sealed interface DateFormat {
     companion object {
+        val TIME = com.soywiz.klock.DateFormat("HH:mm")
         val MONTH = com.soywiz.klock.DateFormat("yyyy-MM")
         val MONTH_DISPLAY = com.soywiz.klock.DateFormat("yyyy - MMMM")
         val DAY = com.soywiz.klock.DateFormat("yyyy-MM-dd")

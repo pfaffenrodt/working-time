@@ -9,10 +9,12 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
+import com.soywiz.klock.DateTime
 import de.pfaffenrodt.workingtime.data.DataComponent
 import de.pfaffenrodt.workingtime.data.DateFormat
 import de.pfaffenrodt.workingtime.data.Day
 import de.pfaffenrodt.workingtime.data.Month
+import de.pfaffenrodt.workingtime.data.database.toDb
 import kotlinx.parcelize.Parcelize
 
 interface Root {
@@ -100,6 +102,23 @@ interface Root {
         ): Child {
             fun onBack() {
                 root.onBack()
+            }
+
+            fun store(time: DateTime) {
+                val newTime = day.date.copyDayOfMonth(hours = time.hours, minutes = time.minutes)
+                val newTimesList = day.times.toMutableList()
+                newTimesList.add(newTime)
+                newTimesList.sortBy { it.unixMillis }
+                val newDay = day.copy(times = newTimesList)
+                root.data.dayRepository.update(newDay)
+
+                root.onStoredDay(root.data.dayRepository.get(newDay.date)!!)
+            }
+
+            fun onEditNote(newNode: String) {
+                val newDay = day.copy(note = newNode)
+                root.data.dayRepository.update(newDay)
+                root.onStoredDay(newDay)
             }
         }
     }

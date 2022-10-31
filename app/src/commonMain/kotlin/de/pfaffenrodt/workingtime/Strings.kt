@@ -1,6 +1,7 @@
 package de.pfaffenrodt.workingtime
 
 object Strings {
+    val add = "Hinzufügen"
     val addMonth = "Monat hinzufügen"
     val addDay = "Tag hinzufügen"
     val workingTimeTracking = "Arbeitszeiterfassung"
@@ -15,4 +16,6 @@ object Strings {
     val actualHours = "Iststunden"
     val lastMonthTransfer = "Vormonatsübertrag"
     val nextMonthTransfer = "Übertragfolgemonat"
+
+    val note = "Notiz"
 }

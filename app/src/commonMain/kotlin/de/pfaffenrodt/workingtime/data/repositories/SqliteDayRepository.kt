@@ -31,6 +31,7 @@ class SqliteDayRepository(
     }
 
     override fun update(day: Day) {
-        TODO("Not yet implemented")
+        val db = day.toDb()
+        database.dayQueries.update(db)
     }
 }

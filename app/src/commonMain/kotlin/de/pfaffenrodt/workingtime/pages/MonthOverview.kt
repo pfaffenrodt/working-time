@@ -32,11 +32,15 @@ import de.pfaffenrodt.workingtime.components.EditButton
 import de.pfaffenrodt.workingtime.components.Toolbar
 import de.pfaffenrodt.workingtime.data.Day
 import de.pfaffenrodt.workingtime.data.Month
+import de.pfaffenrodt.workingtime.data.string
 import de.pfaffenrodt.workingtime.icons.IconPack
 
 @Composable
 fun MonthOverview(component: Root.Child.MonthOverview) {
     val items = component.items()
+    val hours = items.map { it.hours }
+        .reduce { acc, hours -> acc.plus(hours) }
+        .string()
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -55,9 +59,9 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
                     Column(modifier = Modifier.padding(bottom = 8.dp)) {
                         Row(modifier = Modifier.padding(bottom = 16.dp)) {
                             Column(modifier = Modifier.weight(1f)) {
-                                Text(Strings.actualHours + " TODO")
-                                Text("${Strings.targetHours} ${component.month.targetHours} h")
-                                Text("${Strings.lastMonthTransfer} ${component.month.lastMonthHoursTransfer} h")
+                                Text(Strings.actualHours + " " + hours )
+                                Text("${Strings.targetHours} ${component.month.targetHours ?: "-" } h")
+                                Text("${Strings.lastMonthTransfer} ${component.month.lastMonthHoursTransfer ?: "-" } h")
                                 Text("${Strings.nextMonthTransfer} TODO h")
                             }
                             EditButton { component.editMonth() }
@@ -115,8 +119,9 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
 @Composable
 fun ListItem(item: Day, open: (day: Day) -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().clickable { open(item) }) {
-        Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-            Text(item.date.dayOfMonth.toString() + ".")
+        Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+            Text(text = item.hoursSummary, style = MaterialTheme.typography.subtitle1 )
+            Text(text = item.summary, style = MaterialTheme.typography.h1 )
         }
     }
 }

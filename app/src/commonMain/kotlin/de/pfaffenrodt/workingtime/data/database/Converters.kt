@@ -34,6 +34,7 @@ fun Day.toDb(): de.pfaffenrodt.workingtime.data.database.Day
     return de.pfaffenrodt.workingtime.data.database.Day(
         date = date,
         note = note,
+        times = times,
     )
 }
 
@@ -50,5 +51,6 @@ fun de.pfaffenrodt.workingtime.data.database.Day.toData(): Day
     return Day(
         date = date,
         note = note,
+        times = times,
     )
 }

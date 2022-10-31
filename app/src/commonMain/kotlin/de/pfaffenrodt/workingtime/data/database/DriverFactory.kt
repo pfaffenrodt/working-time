@@ -9,8 +9,11 @@ expect class DriverFactory {
 fun createDatabase(driverFactory: DriverFactory): Database {
     val driver = driverFactory.createDriver()
     val database = Database(driver,
-        Day.Adapter(dateAdapter = listOfDateTimeAdapter),
-        Month.Adapter(dateAdapter = listOfMonthAdapter),
+        Day.Adapter(
+            dateAdapter = dateTimeAdapter,
+            timesAdapter = listOfDateTimeAdapter
+        ),
+        Month.Adapter(dateAdapter = monthAdapter),
     )
 
     return database
