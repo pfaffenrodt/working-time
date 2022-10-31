@@ -30,6 +30,6 @@ class SqliteMonthRepository(
     }
 
     override fun update(month: Month) {
-        TODO("Not yet implemented")
+        database.monthQueries.update(month.toDb())
     }
 }

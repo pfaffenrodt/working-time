@@ -15,5 +15,8 @@ SELECT * FROM month ORDER BY date DESC;
 insert:
 INSERT INTO month VALUES ?;
 
+update:
+INSERT OR REPLACE INTO month VALUES ?;
+
 selectByDate:
 SELECT * FROM month WHERE date = ?;

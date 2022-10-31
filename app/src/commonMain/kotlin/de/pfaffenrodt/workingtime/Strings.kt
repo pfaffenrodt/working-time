@@ -3,6 +3,7 @@ package de.pfaffenrodt.workingtime
 object Strings {
     val add = "Hinzufügen"
     val addMonth = "Monat hinzufügen"
+    val editMonth = "Monat bearbeiten"
     val addDay = "Tag hinzufügen"
     val workingTimeTracking = "Arbeitszeiterfassung"
     val noEntries = "Noch keine Einträge vorhanden"

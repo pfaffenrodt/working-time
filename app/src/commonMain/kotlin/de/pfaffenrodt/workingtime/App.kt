@@ -8,6 +8,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import de.pfaffenrodt.workingtime.pages.AddDay
 import de.pfaffenrodt.workingtime.pages.AddMonth
 import de.pfaffenrodt.workingtime.pages.DayOverview
+import de.pfaffenrodt.workingtime.pages.EditMonth
 import de.pfaffenrodt.workingtime.pages.MonthOverview
 import de.pfaffenrodt.workingtime.pages.YearOverview
 
@@ -28,6 +29,7 @@ fun RootContent(root: Root)
     when(val activeComponent = childStack.active.instance) {
         is Root.Child.YearOverview -> YearOverview(activeComponent)
         is Root.Child.AddMonth -> AddMonth(activeComponent)
+        is Root.Child.EditMonth -> EditMonth(activeComponent)
         is Root.Child.MonthOverview -> MonthOverview(activeComponent)
         is Root.Child.AddDay -> AddDay(activeComponent)
         is Root.Child.DayOverview -> DayOverview(activeComponent)

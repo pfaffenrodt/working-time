@@ -26,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
 import de.pfaffenrodt.workingtime.components.BackButton
@@ -39,9 +41,14 @@ import de.pfaffenrodt.workingtime.icons.IconPack
 @Composable
 fun MonthOverview(component: Root.Child.MonthOverview) {
     val items = component.items()
-    val hours = items.map { it.hours }
+    val hoursValue = items.map { it.hours }
         .reduce { acc, hours -> acc.plus(hours) }
+    val hours = hoursValue
         .string()
+    val targetHoursBigDecimal = component.month.targetHoursBigDecimal
+    val transferHours = (hoursValue.hours.toBigDecimal() - targetHoursBigDecimal + component.month.lastMonthHoursTransferBigDecimal)
+                        .roundToDigitPositionAfterDecimalPoint(2, RoundingMode.ROUND_HALF_TOWARDS_ZERO)
+                        .toStringExpanded()
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -66,7 +73,7 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
                                 Text(Strings.actualHours + " " + hours )
                                 Text("${Strings.targetHours} ${component.month.targetHours ?: "-" } h")
                                 Text("${Strings.lastMonthTransfer} ${component.month.lastMonthHoursTransfer ?: "-" } h")
-                                Text("${Strings.nextMonthTransfer} TODO h")
+                                Text("${Strings.nextMonthTransfer} $transferHours h")
                             }
                             EditButton { component.editMonth() }
                         }

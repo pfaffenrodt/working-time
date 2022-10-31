@@ -29,24 +29,19 @@ import de.pfaffenrodt.workingtime.data.toString
 import de.pfaffenrodt.workingtime.icons.IconPack
 
 @Composable
-fun AddMonth(component: Root.Child.AddMonth) {
+fun EditMonth(component: Root.Child.EditMonth) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize()) {
-        var month by remember { mutableStateOf(Month.now()) }
+        var month by remember { mutableStateOf(component.month) }
         Column(modifier = Modifier.fillMaxWidth()) {
             Toolbar(onBack = component::onBack) {
-                Text(Strings.addMonth)
+                Text(month.displayFormat + Strings.editMonth)
             }
             Column( modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
             ){
-                MonthPicker(
-                    value = month.date
-                ) {
-                    newValue -> month = month.copy(date = newValue)
-                }
                 // target hours
                 OutlinedTextField(
                     month.targetHours.toString(),

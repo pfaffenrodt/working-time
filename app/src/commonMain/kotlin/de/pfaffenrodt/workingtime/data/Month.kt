@@ -17,7 +17,7 @@ data class Month(
     @IgnoredOnParcel
     val targetHoursBigDecimal = targetHours.bd()
     @IgnoredOnParcel
-    val lastMonthHoursTransferBigDecimal = targetHours.bd()
+    val lastMonthHoursTransferBigDecimal = lastMonthHoursTransfer.bd()
 
     companion object {
         fun now(): Month {

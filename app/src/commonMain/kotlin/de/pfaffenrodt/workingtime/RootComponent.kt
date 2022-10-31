@@ -96,6 +96,19 @@ interface Root {
                 root.onStoredDay(day)
             }
         }
+        class EditMonth(
+            private val root: Root,
+            val month: Month
+        ): Child {
+            fun onBack() {
+                root.onBack()
+            }
+
+            fun store(month: Month) {
+                root.data.monthRepository.update(month)
+                root.onStoredMonth(month)
+            }
+        }
         class DayOverview(
             private val root: Root,
             val day: Day,
@@ -159,6 +172,7 @@ class RootComponent(
             is Config.MonthOverview -> Root.Child.MonthOverview(this, config.month)
             is Config.DayOverview -> Root.Child.DayOverview(this, config.day)
             is Config.AddMonth -> Root.Child.AddMonth(this)
+            is Config.EditMonth -> Root.Child.EditMonth(this, config.month)
             is Config.AddDay -> Root.Child.AddDay(this, config.month)
         }
     }
@@ -180,7 +194,7 @@ class RootComponent(
     }
 
     override fun onEditMonth(month: Month) {
-        TODO("Not yet implemented")
+        navigation.bringToFront(Config.EditMonth(month))
     }
 
     override fun onAddDay(month: Month) {
@@ -202,6 +216,8 @@ class RootComponent(
         class MonthOverview(val month: Month): Config
         @Parcelize
         object AddMonth: Config
+        @Parcelize
+        class EditMonth(val month: Month): Config
         @Parcelize
         class AddDay(val month: Month): Config
         @Parcelize
