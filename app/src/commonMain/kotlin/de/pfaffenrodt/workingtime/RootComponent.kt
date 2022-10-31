@@ -106,7 +106,7 @@ interface Root {
 
             fun store(month: Month) {
                 root.data.monthRepository.update(month)
-                root.onStoredMonth(month)
+                root.onUpdatedMonth(month)
             }
         }
         class DayOverview(
@@ -140,6 +140,7 @@ interface Root {
     fun onAddMonth()
     fun onOpenMonth(month: Month)
     fun onStoredMonth(month: Month)
+    fun onUpdatedMonth(month: Month)
     fun onEditMonth(month: Month)
     fun onAddDay(month: Month)
     fun onOpenDay(day: Day)
@@ -195,6 +196,11 @@ class RootComponent(
 
     override fun onEditMonth(month: Month) {
         navigation.bringToFront(Config.EditMonth(month))
+    }
+
+    override fun onUpdatedMonth(month: Month) {
+        navigation.pop()
+        navigation.replaceCurrent(Config.MonthOverview(month))
     }
 
     override fun onAddDay(month: Month) {

@@ -74,8 +74,10 @@ fun EditMonth(component: Root.Child.EditMonth) {
             Button({
                 component.store(month)
             }, modifier = Modifier.fillMaxWidth()) {
-                Icon(IconPack.Add, "")
-                Text("Hinzufügen", color = Color.Black)
+                Icon(IconPack.Save, "")
+                Box(modifier = Modifier.weight(1f))
+                Text("Speichern", color = Color.Black)
+                Box(modifier = Modifier.weight(1f))
             }
         }
     }
