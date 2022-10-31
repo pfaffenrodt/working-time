@@ -24,25 +24,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.soywiz.klock.TimeSpan
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
 import de.pfaffenrodt.workingtime.components.EditButton
 import de.pfaffenrodt.workingtime.components.Toolbar
 import de.pfaffenrodt.workingtime.data.Day
-import de.pfaffenrodt.workingtime.data.string
+import de.pfaffenrodt.workingtime.data.MonthSummary
 import de.pfaffenrodt.workingtime.icons.IconPack
 
 @Composable
 fun MonthOverview(component: Root.Child.MonthOverview) {
     val items = component.items()
-    val hoursValue = if (items.isEmpty()) TimeSpan(0.0) else items.map { it.hours }
-        .reduce { acc, hours -> acc.plus(hours) }
-    val hours = hoursValue
-        .string()
-    val targetHoursTimeSpan = component.month.targetHoursTimeSpan
-    val monthHoursDiff = (hoursValue - targetHoursTimeSpan).string()
-    val transferHours = (hoursValue - targetHoursTimeSpan + component.month.lastMonthHoursTransferTimeSpan).string()
+    val summary = MonthSummary(component.month, items)
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -64,11 +57,11 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
                     Column(modifier = Modifier.padding(bottom = 8.dp)) {
                         Row(modifier = Modifier.padding(bottom = 16.dp)) {
                             Column(modifier = Modifier.weight(1f)) {
-                                Text(Strings.actualHours + " " + hours )
+                                Text(Strings.actualHours + " " + summary.hours )
                                 Text("${Strings.targetHours} ${component.month.targetHours ?: "-" }")
-                                Text("${Strings.monthDiff} $monthHoursDiff")
+                                Text("${Strings.monthDiff} ${summary.monthHoursDiff}")
                                 Text("${Strings.lastMonthTransfer} ${component.month.lastMonthHoursTransfer ?: "-" }")
-                                Text("${Strings.nextMonthTransfer} $transferHours")
+                                Text("${Strings.nextMonthTransfer} ${summary.transferHours}")
                             }
                             EditButton { component.editMonth() }
                         }

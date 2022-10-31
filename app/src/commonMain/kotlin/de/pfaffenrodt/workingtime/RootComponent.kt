@@ -14,7 +14,7 @@ import de.pfaffenrodt.workingtime.data.DataComponent
 import de.pfaffenrodt.workingtime.data.DateFormat
 import de.pfaffenrodt.workingtime.data.Day
 import de.pfaffenrodt.workingtime.data.Month
-import de.pfaffenrodt.workingtime.data.database.toDb
+import de.pfaffenrodt.workingtime.data.MonthSummary
 import kotlinx.parcelize.Parcelize
 
 interface Root {
@@ -31,6 +31,10 @@ interface Root {
 
             fun items(): List<Month> {
                 return root.data.monthRepository.index()
+            }
+
+            fun summary(month: Month): MonthSummary {
+                return MonthSummary(month, root.data.dayRepository.index(month))
             }
 
             fun onOpenMonth(month: Month) {

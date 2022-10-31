@@ -36,7 +36,9 @@ fun YearOverview(component: Root.Child.YearOverview) {
             component.onAddMonth()
         }
     } else {
-        YearPage(items,
+        YearPage(
+            component,
+            items,
             add = {
                 component.onAddMonth()
             },
@@ -101,9 +103,11 @@ fun EmptyYearPage(add: () -> Unit) {
 
 
 @Composable
-fun YearPage(items: List<Month>,
-             add: () -> Unit,
-             open: (month: Month) -> Unit,
+fun YearPage(
+    component: Root.Child.YearOverview,
+    items: List<Month>,
+    add: () -> Unit,
+    open: (month: Month) -> Unit,
 ) {
 
     Column(
@@ -141,7 +145,7 @@ fun YearPage(items: List<Month>,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(items) {
-                    ListItem(it) {
+                    ListItem(component, it) {
                         month -> open(month)
                     }
                 }
@@ -171,10 +175,18 @@ fun YearPage(items: List<Month>,
 }
 
 @Composable
-fun ListItem(item: Month, open: (month: Month) -> Unit) {
+fun ListItem(
+    component: Root.Child.YearOverview,
+    item: Month,
+    open: (month: Month) -> Unit
+) {
+    val summary = component.summary(item)
     Card(modifier = Modifier.fillMaxWidth().clickable { open(item) }) {
         Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-            Text(item.displayFormat)
+            Column {
+                Text(summary.hours + " (" + summary.transferHours +")", style = MaterialTheme.typography.subtitle1)
+                Text(item.displayFormat, style = MaterialTheme.typography.h1)
+            }
         }
     }
 }
