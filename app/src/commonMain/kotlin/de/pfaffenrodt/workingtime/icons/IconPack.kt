@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material.icons.sharp.ArrowBack
 import androidx.compose.material.icons.sharp.Edit
 
@@ -16,4 +17,5 @@ object IconPack {
     val Delete = Icons.Default.Delete
     val Edit = Icons.Sharp.Edit
     val Save = Icons.Default.Save
+    val Sort = Icons.Default.Sort
 }

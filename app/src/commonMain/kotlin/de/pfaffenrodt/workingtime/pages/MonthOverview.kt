@@ -21,7 +21,13 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Sort
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -31,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
 import de.pfaffenrodt.workingtime.components.EditButton
+import de.pfaffenrodt.workingtime.components.SortButton
 import de.pfaffenrodt.workingtime.components.Toolbar
 import de.pfaffenrodt.workingtime.data.Day
 import de.pfaffenrodt.workingtime.data.MonthSummary
@@ -40,11 +47,22 @@ import de.pfaffenrodt.workingtime.icons.IconPack
 fun MonthOverview(component: Root.Child.MonthOverview) {
     val items = component.items()
     val summary = MonthSummary(component.month, items)
+    var sortByDesc by remember { mutableStateOf(true) }
+    val sortedItems = if (sortByDesc) {
+        items.sortedByDescending { it.dayOfMonth }
+    } else {
+        items.sortedBy { it.dayOfMonth }
+    }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         Toolbar(
-            onBack = component::onBack
+            onBack = component::onBack,
+            actions = {
+              SortButton {
+                  sortByDesc = !sortByDesc
+              }
+            },
         ) {
             Text(component.month.displayFormat)
             Text(Strings.monthView, modifier = Modifier.alpha(0.6f))
@@ -87,7 +105,7 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
                         )
                     }
                 } else {
-                    items(items) {
+                    items(sortedItems, key = { it.dayOfMonth }) {
                         item -> ListItem(item) {
                             day: Day ->  component.onOpenDay(day)
                         }
