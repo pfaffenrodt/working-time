@@ -139,8 +139,8 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
 
 @Composable
 fun ListItem(item: Day, open: (day: Day) -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth().clickable { open(item) }) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+    Card(modifier = Modifier.fillMaxWidth(), shape = MaterialTheme.shapes.medium) {
+        Column(modifier = Modifier.fillMaxWidth().clickable { open(item) }) {
             Row(Modifier.height(IntrinsicSize.Min)) {
                 Column(modifier = Modifier
                     .fillMaxHeight()

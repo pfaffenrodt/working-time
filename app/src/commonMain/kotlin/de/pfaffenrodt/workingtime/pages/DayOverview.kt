@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -147,7 +149,7 @@ fun EditTimeItem(index: Int, lastIndex: Int, item: DateTime, onDelete: () -> Uni
         Strings.endOfWorkingDay
     else Strings.endTime
 
-    Card {
+    Card(shape = MaterialTheme.shapes.small) {
         Row(verticalAlignment = Alignment.CenterVertically){
             val content = label + " " + item.toString(DateFormat.TIME)
             Text(content, modifier = Modifier.weight(1f).padding(8.dp))
@@ -160,7 +162,7 @@ fun EditTimeItem(index: Int, lastIndex: Int, item: DateTime, onDelete: () -> Uni
 
 @Composable
 fun TimeSpanItem(item: DateTimeRange) {
-    Card {
+    Card(shape = MaterialTheme.shapes.small) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             val content = if (item.duration.milliseconds < 0) {
                 "${Strings.timeForBreak}: " + item.string()
@@ -182,7 +184,7 @@ fun Note(note: String, onValueChange: (String) -> Unit) {
     }
     Card {
         Row(
-            modifier = Modifier,
+            modifier = Modifier.defaultMinSize(minHeight = 62.dp),
             verticalAlignment = Alignment.Bottom
         ) {
             if (editNote) {
