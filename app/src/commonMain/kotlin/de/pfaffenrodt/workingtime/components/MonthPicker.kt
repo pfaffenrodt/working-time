@@ -1,6 +1,11 @@
 package de.pfaffenrodt.workingtime.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Shapes
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -24,6 +29,7 @@ fun MonthPicker(
         IconButton(
             Icons.Filled.KeyboardArrowLeft,
         "Monat zurück",
+            modifier.background(MaterialTheme.colors.primary, CircleShape),
         ) {
             onChange(value.minus(MonthSpan(1)))
         }
@@ -35,9 +41,10 @@ fun MonthPicker(
         )
         IconButton(
             Icons.Default.KeyboardArrowRight,
-        "nächster Monat",
+            "nächster Monat",
+            modifier.background(MaterialTheme.colors.primary, CircleShape),
         ) {
-            onChange(value.minus(MonthSpan(1)))
+            onChange(value.plus(MonthSpan(1)))
         }
     }
 }
