@@ -1,23 +1,23 @@
 package de.pfaffenrodt.workingtime.icons
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.sharp.AcUnit
-import androidx.compose.material.icons.sharp.CrueltyFree
-import androidx.compose.material.icons.sharp.Egg
-import androidx.compose.material.icons.sharp.Favorite
-import androidx.compose.material.icons.sharp.LocalFlorist
-import androidx.compose.material.icons.sharp.Pool
-import androidx.compose.material.icons.sharp.Surfing
+import androidx.compose.material.icons.outlined.AcUnit
+import androidx.compose.material.icons.outlined.CrueltyFree
+import androidx.compose.material.icons.outlined.Egg
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.LocalFlorist
+import androidx.compose.material.icons.outlined.Pool
+import androidx.compose.material.icons.outlined.Surfing
 import androidx.compose.ui.graphics.vector.ImageVector
 
 object MonthIcons {
-    val January = Icons.Sharp.AcUnit
-    val February = Icons.Sharp.Favorite
-    val March = Icons.Sharp.CrueltyFree
-    val April = Icons.Sharp.Egg
-    val May = Icons.Sharp.LocalFlorist
-    val June = Icons.Sharp.Pool
-    val July = Icons.Sharp.Surfing
+    val January = Icons.Outlined.AcUnit
+    val February = Icons.Outlined.Favorite
+    val March = Icons.Outlined.CrueltyFree
+    val April = Icons.Outlined.Egg
+    val May = Icons.Outlined.LocalFlorist
+    val June = Icons.Outlined.Pool
+    val July = Icons.Outlined.Surfing
     val August = IconPack.Sunflower
     val September = IconPack.Pear
     val October = IconPack.HalloweenPumpkin

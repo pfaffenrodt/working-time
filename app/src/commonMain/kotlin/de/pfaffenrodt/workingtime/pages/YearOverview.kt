@@ -1,6 +1,7 @@
 package de.pfaffenrodt.workingtime.pages
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -27,10 +29,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
+import de.pfaffenrodt.workingtime.components.SecondaryButtonSettings
 import de.pfaffenrodt.workingtime.data.Month
 import de.pfaffenrodt.workingtime.icons.IconPack
 import de.pfaffenrodt.workingtime.icons.Logo
-import de.pfaffenrodt.workingtime.icons.MonthIcons
 import de.pfaffenrodt.workingtime.icons.monthIcon
 
 @Composable
@@ -186,21 +188,29 @@ fun ListItem(
     open: (month: Month) -> Unit
 ) {
     val summary = component.summary(item)
-    Card(modifier = Modifier.fillMaxWidth().clickable { open(item) }) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large,
+    ) {
         Row(
             modifier = Modifier.height(IntrinsicSize.Min)
-            .fillMaxWidth()
-            .padding(8.dp)
+            .fillMaxWidth().clickable { open(item) }
+            .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Column(modifier = Modifier.weight(1f)) {
+            Column(modifier = Modifier.weight(1f).padding(horizontal = 20.dp)) {
                 Text(summary.hours + " (" + summary.transferHours +")", style = MaterialTheme.typography.subtitle1)
                 Text(item.displayFormat, style = MaterialTheme.typography.h1)
             }
-            Icon(
-                item.date.month1.monthIcon(),
-                null,
-                Modifier.size(48.dp),
-            )
+            SecondaryButtonSettings {
+                Icon(
+                    item.date.month1.monthIcon(),
+                    null,
+                    Modifier.size(80.dp)
+                        .background(MaterialTheme.colors.secondary, CircleShape)
+                        .padding(16.dp),
+                )
+            }
         }
     }
 }
