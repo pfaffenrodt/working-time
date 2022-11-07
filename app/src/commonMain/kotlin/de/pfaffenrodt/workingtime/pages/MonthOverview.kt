@@ -153,12 +153,14 @@ fun ListItem(item: Day, open: (day: Day) -> Unit) {
                         style = MaterialTheme.typography.h1,
                         modifier = Modifier,
                         fontFamily = FontFamily.Monospace,
+                        color = MaterialTheme.colors.onPrimary,
                     )
                     Text(
                         item.dayOfWeek,
                         style = MaterialTheme.typography.h1,
                         modifier = Modifier,
                         fontFamily = FontFamily.Monospace,
+                        color = MaterialTheme.colors.onPrimary,
                     )
                 }
                 Column(modifier = Modifier

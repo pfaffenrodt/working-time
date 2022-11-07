@@ -4,10 +4,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -27,6 +30,8 @@ import de.pfaffenrodt.workingtime.Strings
 import de.pfaffenrodt.workingtime.data.Month
 import de.pfaffenrodt.workingtime.icons.IconPack
 import de.pfaffenrodt.workingtime.icons.Logo
+import de.pfaffenrodt.workingtime.icons.MonthIcons
+import de.pfaffenrodt.workingtime.icons.monthIcon
 
 @Composable
 fun YearOverview(component: Root.Child.YearOverview) {
@@ -115,7 +120,7 @@ fun YearPage(
         modifier = Modifier.fillMaxSize().padding(16.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth()) {
+            modifier = Modifier.weight(1f)) {
             Row {
                 Image(
                     IconPack.Logo,
@@ -142,7 +147,7 @@ fun YearPage(
                 }
             }
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(items) {
                     ListItem(component, it) {
@@ -182,11 +187,20 @@ fun ListItem(
 ) {
     val summary = component.summary(item)
     Card(modifier = Modifier.fillMaxWidth().clickable { open(item) }) {
-        Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-            Column {
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Min)
+            .fillMaxWidth()
+            .padding(8.dp)
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(summary.hours + " (" + summary.transferHours +")", style = MaterialTheme.typography.subtitle1)
                 Text(item.displayFormat, style = MaterialTheme.typography.h1)
             }
+            Icon(
+                item.date.month1.monthIcon(),
+                null,
+                Modifier.size(48.dp),
+            )
         }
     }
 }

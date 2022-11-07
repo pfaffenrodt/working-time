@@ -25,14 +25,17 @@ fun MyApplicationTheme(
             primary = Color(0xFFBB86FC),
             primaryVariant = Color(0xFF3700B3),
             secondary = Color(0xFF03DAC5),
-            onBackground = Color(0xFFFFFFFF)
+            onBackground = Color(0xFFFFFFFF),
+            onPrimary = Color(0xFF292929),
         )
     } else {
         lightColors(
             primary = Color(0xFF6200EE),
             primaryVariant = Color(0xFF3700B3),
             secondary = Color(0xFF03DAC5),
-            onBackground = Color(0xFF292929)
+            background = Color(0xFFEDEDED),
+            onBackground = Color(0xFF292929),
+            onPrimary = Color(0xFFFFFFFF),
         )
     }
     val typography = Typography(
@@ -40,13 +43,11 @@ fun MyApplicationTheme(
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
-            color = colors.onBackground,
         ),
         body1 = TextStyle(
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp,
-            color = colors.onBackground,
         )
     )
     val shapes = Shapes(
