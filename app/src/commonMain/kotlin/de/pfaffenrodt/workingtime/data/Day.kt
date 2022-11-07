@@ -56,6 +56,12 @@ data class Day(
     
     val hoursSummary: String
         get() = hours.string()
+
+    val dayOfWeek: String
+        get() = date.dayOfWeek.localShortName.slice(0..1) + "."
+
+    val dayOfMonth: String
+        get() = date.dayOfMonth.toString().padStart(2, '0') + "."
 }
 
 fun DateTimeRange.string(): String {

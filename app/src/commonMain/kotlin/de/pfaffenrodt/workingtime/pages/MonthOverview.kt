@@ -5,11 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
@@ -23,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import de.pfaffenrodt.workingtime.Root
 import de.pfaffenrodt.workingtime.Strings
@@ -118,16 +122,33 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
 @Composable
 fun ListItem(item: Day, open: (day: Day) -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().clickable { open(item) }) {
-        Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    item.date.dayOfMonth.toString(),
-                    style = MaterialTheme.typography.h1,
-                    modifier = Modifier.padding(8.dp)
-                )
-                Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-                    Text(text = item.hoursSummary, style = MaterialTheme.typography.subtitle1)
-                    Text(text = item.summary, style = MaterialTheme.typography.h1)
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Row(Modifier.height(IntrinsicSize.Min)) {
+                Column(modifier = Modifier
+                    .fillMaxHeight()
+                    .background(MaterialTheme.colors.primary)
+                    .padding(start = 8.dp, top = 8.dp, bottom = 8.dp, end = 4.dp),
+                    horizontalAlignment = Alignment.Start,
+                ) {
+                    Text(
+                        item.dayOfMonth,
+                        style = MaterialTheme.typography.h1,
+                        modifier = Modifier,
+                        fontFamily = FontFamily.Monospace,
+                    )
+                    Text(
+                        item.dayOfWeek,
+                        style = MaterialTheme.typography.h1,
+                        modifier = Modifier,
+                        fontFamily = FontFamily.Monospace,
+                    )
+                }
+                Column(modifier = Modifier
+                    .weight(1f)
+                    .padding(8.dp)
+                ) {
+                    Text(text = item.hoursSummary, style = MaterialTheme.typography.h1)
+                    Text(text = item.summary, style = MaterialTheme.typography.subtitle1)
                     if (!item.note.isNullOrBlank()) {
                         Box(
                             modifier = Modifier
