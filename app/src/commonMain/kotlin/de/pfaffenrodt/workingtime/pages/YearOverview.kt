@@ -4,9 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -117,55 +120,72 @@ fun YearPage(
     open: (month: Month) -> Unit,
 ) {
 
-    Column(
-        verticalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxSize().padding(16.dp)
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier.weight(1f)) {
-            Row {
-                Image(
-                    IconPack.Logo,
-                    null,
-                    Modifier
-                        .fillMaxWidth(0.3f)
-                        .wrapContentHeight()
-                )
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            item {
+                Row {
+                    Image(
+                        IconPack.Logo,
+                        null,
+                        Modifier
+                            .fillMaxWidth(0.3f)
+                            .wrapContentHeight()
+                    )
 
-                Column(modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(16.dp)
-                ) {
-                    Text(Strings.workingTimeTracking,
-                        modifier = Modifier
-                            .alpha(0.87f),
-                        style = MaterialTheme.typography.h1,
-                    )
-                    Text(Strings.yearView,
-                        modifier = Modifier
-                            .alpha(0.6f),
-                        style = MaterialTheme.typography.body1,
-                    )
+                    Column(modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .padding(16.dp)
+                    ) {
+                        Text(Strings.workingTimeTracking,
+                            modifier = Modifier
+                                .alpha(0.87f),
+                            style = MaterialTheme.typography.h1,
+                        )
+                        Text(Strings.yearView,
+                            modifier = Modifier
+                                .alpha(0.6f),
+                            style = MaterialTheme.typography.body1,
+                        )
+                    }
                 }
             }
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                items(items) {
-                    ListItem(component, it) {
-                        month -> open(month)
+            items(items) {
+                ListItem(component, it) {
+                    month -> open(month)
+                }
+            }
+            item {
+                Box(modifier = Modifier.defaultMinSize(minHeight = 48.dp)) {
+                    if (items.size > 5) {
+                        Text(
+                            Strings.descriptionStartNewMonth,
+                            modifier = Modifier.fillMaxSize(0.7f)
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            style = MaterialTheme.typography.body1,
+                        )
                     }
                 }
             }
         }
-        Row() {
-            Text(Strings.descriptionStartNewMonth,
-                modifier = Modifier
-                    .alpha(0.6f)
-                    .align(Alignment.CenterVertically)
-                    .weight(1f),
-                style = MaterialTheme.typography.body1,
-            )
+        Row(modifier = Modifier
+            .align(Alignment.BottomEnd)
+            .padding(16.dp)
+        ) {
+            if (items.size < 5) {
+                Text(
+                    Strings.descriptionStartNewMonth,
+                    modifier = Modifier
+                        .alpha(0.6f)
+                        .align(Alignment.CenterVertically)
+                        .weight(1f),
+                    style = MaterialTheme.typography.body1,
+                )
+            }
             FloatingActionButton(
                 onClick = add,
                 backgroundColor = MaterialTheme.colors.primary,
