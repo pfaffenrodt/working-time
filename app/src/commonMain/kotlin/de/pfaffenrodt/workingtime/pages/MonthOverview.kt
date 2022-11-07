@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -67,13 +69,13 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
             Text(component.month.displayFormat)
             Text(Strings.monthView, modifier = Modifier.alpha(0.6f))
         }
-        Column(
-            verticalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.weight(1f).padding(16.dp)
+        Box(
+            modifier = Modifier.weight(1f)
         ) {
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.weight(1f)
+                contentPadding = PaddingValues(16.dp),
+                modifier = Modifier.fillMaxSize(),
             ) {
                 item {
                     Column(modifier = Modifier.padding(bottom = 8.dp)) {
@@ -99,7 +101,6 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
                         Text(
                             text = Strings.noEntries,
                             modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
                                 .alpha(0.87f),
                             style = MaterialTheme.typography.h1,
                         )
@@ -111,15 +112,33 @@ fun MonthOverview(component: Root.Child.MonthOverview) {
                         }
                     }
                 }
+                item {
+                    Box(modifier = Modifier.defaultMinSize(minHeight = 48.dp)) {
+                        if (items.size > 5) {
+                            Text(
+                                Strings.descriptionStartNewDay,
+                                modifier = Modifier.fillMaxSize(0.7f)
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                                style = MaterialTheme.typography.body1,
+                            )
+                        }
+                    }
+                }
             }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        Strings.descriptionStartNewDay,
-                        modifier = Modifier
-                            .alpha(0.6f),
-                        style = MaterialTheme.typography.body1,
-                    )
+            Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+            ) {
+                if (items.size < 5) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            Strings.descriptionStartNewDay,
+                            modifier = Modifier
+                                .alpha(0.6f),
+                            style = MaterialTheme.typography.body1,
+                        )
+                    }
                 }
                 FloatingActionButton(
                     onClick = { component.onAddDay() },
